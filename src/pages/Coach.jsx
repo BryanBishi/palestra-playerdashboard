@@ -39,14 +39,14 @@ const SCHEDULE = [
 ];
 
 const OBJECTIVES = [
-  { goal: "Improve strike rate to 140+ in T20", progress: 72, color: "#e87722" },
+  { goal: "Improve strike rate to 140+ in T20", progress: 72, color: "#ec5a4d" },
   { goal: "Reduce wide balls per over to <0.5", progress: 55, color: "#4f9cf9" },
   { goal: "Maintain fielding fitness score 85+", progress: 88, color: "#22c55e" },
   { goal: "Master pull shot off short pitched", progress: 40, color: "#f94f7c" },
 ];
 
 const SKILLS = [
-  { label: "Batting Technique", value: 8.2, color: "#e87722" },
+  { label: "Batting Technique", value: 8.2, color: "#ec5a4d" },
   { label: "Running Between Wickets", value: 7.5, color: "#4f9cf9" },
   { label: "Fielding", value: 8.8, color: "#22c55e" },
   { label: "Mental Composure", value: 7.0, color: "#a855f7" },
@@ -73,7 +73,7 @@ const FEEDBACK = [
 ];
 
 const TYPE_COLORS = {
-  Technical: { color: "#e87722", bg: "#fff8f2" },
+  Technical: { color: "#ec5a4d", bg: "#fff8f2" },
   Physical: { color: "#4f9cf9", bg: "#eff8ff" },
   Tactical: { color: "#a855f7", bg: "#f5f0ff" },
   Analysis: { color: "#f9a825", bg: "#fffbea" },
@@ -107,7 +107,7 @@ export default function Coach() {
       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "20px" }}>
         {[
           { icon: Award, label: "Current Form", value: "Good", color: "#22c55e", bg: "#f0fff4" },
-          { icon: Target, label: "Team Rank", value: "#3", color: "#e87722", bg: "#fff8f2" },
+          { icon: Target, label: "Team Rank", value: "#3", color: "#ec5a4d", bg: "#fff8f2" },
           { icon: BarChart2, label: "Avg Score", value: "8.1/10", color: "#4f9cf9", bg: "#eff8ff" },
           { icon: Star, label: "Coach Rating", value: "4.2★", color: "#f9a825", bg: "#fffbea" },
         ].map(chip => {
@@ -173,8 +173,8 @@ export default function Coach() {
             </div>
           ))}
           <div style={{ marginTop: "16px", padding: "12px 14px", background: "#fff8f2", borderRadius: "8px", border: "1px solid #ffd8b0", fontSize: "12px", color: "#666" }}>
-            <AlertCircle size={13} style={{ color: "#e87722", display: "inline", marginRight: "6px" }} />
-            <strong style={{ color: "#e87722" }}>Focus area:</strong> Pull shot development needs priority in next 3 sessions.
+            <AlertCircle size={13} style={{ color: "#ec5a4d", display: "inline", marginRight: "6px" }} />
+            <strong style={{ color: "#ec5a4d" }}>Focus area:</strong> Pull shot development needs priority in next 3 sessions.
           </div>
         </div>
       )}

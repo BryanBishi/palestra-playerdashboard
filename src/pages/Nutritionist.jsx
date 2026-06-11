@@ -79,7 +79,7 @@ const MealCard = ({ meal }) => {
         <div style={{ padding: "0 16px 14px", borderTop: "1px solid #f5f5f5" }}>
           <div style={{ display: "flex", gap: "10px", margin: "12px 0" }}>
             {[
-              { label: "Protein", value: meal.protein + "g", color: "#e87722" },
+              { label: "Protein", value: meal.protein + "g", color: "#ec5a4d" },
               { label: "Carbs", value: meal.carbs + "g", color: "#4f9cf9" },
               { label: "Fats", value: meal.fats + "g", color: "#f94f7c" },
             ].map(m => (
@@ -99,7 +99,7 @@ const MealCard = ({ meal }) => {
             ))}
           </div>
           {meal.notes && (
-            <div style={{ marginTop: "10px", padding: "8px 12px", background: "#fff8f2", borderRadius: "6px", borderLeft: "3px solid #e87722", fontSize: "11px", color: "#666" }}>
+            <div style={{ marginTop: "10px", padding: "8px 12px", background: "#fff8f2", borderRadius: "6px", borderLeft: "3px solid #ec5a4d", fontSize: "11px", color: "#666" }}>
               <strong>Note:</strong> {meal.notes}
             </div>
           )}
@@ -127,7 +127,7 @@ const MEALS = [
     notes: "Prioritize protein within 30 min of training completion.",
   },
   {
-    name: "Lunch", time: "2:00 PM", calories: 650, protein: 40, carbs: 80, fats: 15, status: "pending", color: "#e87722",
+    name: "Lunch", time: "2:00 PM", calories: 650, protein: 40, carbs: 80, fats: 15, status: "pending", color: "#ec5a4d",
     foods: [{ name: "Dal rice", qty: "2 cups" }, { name: "Sabzi (seasonal veg)", qty: "1 bowl" }, { name: "Curd", qty: "100g" }, { name: "Roti (whole wheat)", qty: "2 nos" }],
   },
   {
@@ -142,7 +142,7 @@ const MEALS = [
 ];
 
 const SUPPLEMENTS = [
-  { name: "Whey Protein", dose: "30g", timing: "Post workout", color: "#e87722" },
+  { name: "Whey Protein", dose: "30g", timing: "Post workout", color: "#ec5a4d" },
   { name: "Creatine Monohydrate", dose: "5g", timing: "Morning", color: "#4f9cf9" },
   { name: "Vitamin D3", dose: "2000 IU", timing: "With lunch", color: "#f9a825" },
   { name: "Omega-3", dose: "1g", timing: "With dinner", color: "#22c55e" },
@@ -180,10 +180,10 @@ export default function Nutritionist() {
         <div style={{ fontSize: "13px", fontWeight: "700", color: "#333", marginBottom: "14px" }}>Today's Macro Goals</div>
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
           <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "24px", fontWeight: "800", color: "#e87722" }}>{totalCals}</div>
+            <div style={{ fontSize: "24px", fontWeight: "800", color: "#ec5a4d" }}>{totalCals}</div>
             <div style={{ fontSize: "11px", color: "#aaa", fontWeight: "600" }}>Total kcal</div>
           </div>
-          <MacroRing label="Protein" value={totalProtein} max={200} color="#e87722" />
+          <MacroRing label="Protein" value={totalProtein} max={200} color="#ec5a4d" />
           <MacroRing label="Carbs" value={totalCarbs} max={350} color="#4f9cf9" />
           <MacroRing label="Fats" value={totalFats} max={80} color="#f94f7c" />
           <div style={{ textAlign: "center" }}>
@@ -232,7 +232,7 @@ export default function Nutritionist() {
             ))}
           </div>
           <div style={{ marginTop: "16px", padding: "12px 14px", background: "#fff8f2", borderRadius: "8px", border: "1px solid #ffd8b0", fontSize: "12px", color: "#666" }}>
-            <strong style={{ color: "#e87722" }}>Reminder:</strong> All supplements should be taken as prescribed. Do not self-medicate or add without nutritionist approval.
+            <strong style={{ color: "#ec5a4d" }}>Reminder:</strong> All supplements should be taken as prescribed. Do not self-medicate or add without nutritionist approval.
           </div>
         </div>
       )}

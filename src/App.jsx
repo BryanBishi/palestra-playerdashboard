@@ -31,7 +31,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f4f4f4" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f3f4f6" }}>
       {!isAuthenticated ? (
         <Login onLogin={handleLogin} />
       ) : (

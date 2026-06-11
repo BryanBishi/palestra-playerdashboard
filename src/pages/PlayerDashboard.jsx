@@ -23,7 +23,7 @@ const Heading = ({ title, sub }) => (
   <div style={{ marginBottom: "20px" }}>
     <h1 style={{ fontSize: "20px", fontWeight: "700", color: "#222", marginBottom: "2px" }}>{title}</h1>
     {sub && <p style={{ fontSize: "13px", color: "#888" }}>{sub}</p>}
-    <div style={{ width: "32px", height: "3px", backgroundColor: "#e87722", borderRadius: "2px", marginTop: "4px" }} />
+    <div style={{ width: "32px", height: "3px", backgroundColor: "#ec5a4d", borderRadius: "2px", marginTop: "4px" }} />
   </div>
 );
 
@@ -35,7 +35,7 @@ const BackBtn = ({ label, onClick }) => (
       fontSize: "13px", fontWeight: "600", cursor: "pointer",
       marginBottom: "18px", padding: "0",
     }}
-    onMouseEnter={e => (e.currentTarget.style.color = "#e87722")}
+    onMouseEnter={e => (e.currentTarget.style.color = "#ec5a4d")}
     onMouseLeave={e => (e.currentTarget.style.color = "#888")}
   >
     <ArrowLeft size={16} style={{ color: "inherit" }} /> {label}
@@ -46,13 +46,13 @@ const OBtn = ({ children, onClick, style = {}, variant = "primary" }) => (
   <button onClick={onClick}
     style={{
       display: "inline-flex", alignItems: "center", gap: "7px",
-      padding: "9px 20px", backgroundColor: variant === "danger" ? "#cc3333" : "#e87722",
+      padding: "9px 20px", backgroundColor: variant === "danger" ? "#cc3333" : "#ec5a4d",
       color: "#fff", border: "none", borderRadius: "8px",
       fontSize: "13px", fontWeight: "700", cursor: "pointer",
-      boxShadow: "0 2px 8px rgba(232,119,34,0.28)", ...style,
+      boxShadow: "0 2px 8px rgba(236,90,77,0.28)", ...style,
     }}
-    onMouseEnter={e => (e.currentTarget.style.backgroundColor = variant === "danger" ? "#b22a2a" : "#d06a18")}
-    onMouseLeave={e => (e.currentTarget.style.backgroundColor = variant === "danger" ? "#cc3333" : "#e87722")}
+    onMouseEnter={e => (e.currentTarget.style.backgroundColor = variant === "danger" ? "#b22a2a" : "#d6443a")}
+    onMouseLeave={e => (e.currentTarget.style.backgroundColor = variant === "danger" ? "#cc3333" : "#ec5a4d")}
   >
     {children}
   </button>
@@ -64,7 +64,7 @@ const V = { INFO: "info", TEAM: "team", INJURIES: "injuries", INJ_DETAIL: "inj_d
 const TABS = ["Overview", "NFTC Score", "Physio Findings"];
 
 // ─── STAT CHIP ───────────────────────────────────────────────────────────
-const StatChip = ({ icon: Icon, label, value, color = "#e87722" }) => (
+const StatChip = ({ icon: Icon, label, value, color = "#ec5a4d" }) => (
   <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "12px 8px", background: "#fafafa", borderRadius: "8px", border: "1px solid #e8e8e8", flex: 1 }}>
     <Icon size={14} style={{ color, marginBottom: "4px" }} />
     <div style={{ fontSize: "15px", fontWeight: "700", color: "#222" }}>{value}</div>
@@ -103,7 +103,7 @@ const WellnessChart = ({ data }) => {
     data.length ? (data.reduce((s, d) => s + (d[key] ?? 0), 0) / data.length).toFixed(1) : 0;
 
   const COLORS = {
-    Fatigue:    "#e87722",
+    Fatigue:    "#ec5a4d",
     Sleep:      "#4f9cf9",
     Soreness:   "#f94f7c",
     Motivation: "#22c55e",
@@ -123,7 +123,7 @@ const WellnessChart = ({ data }) => {
         {[
           { icon: Moon,     label: "Sleep",      value: latest.sleep      ?? "–", color: "#4f9cf9" },
           { icon: Zap,      label: "RPE",        value: latest.rpe        ?? "–", color: "#a855f7" },
-          { icon: Heart,    label: "Fatigue",    value: latest.fatigue    ?? "–", color: "#e87722" },
+          { icon: Heart,    label: "Fatigue",    value: latest.fatigue    ?? "–", color: "#ec5a4d" },
           { icon: Activity, label: "Soreness",   value: latest.soreness   ?? "–", color: "#f94f7c" },
           { icon: Target,   label: "Motivation", value: latest.motivation ?? "–", color: "#22c55e" },
         ].map(s => <StatChip key={s.label} {...s} />)}
@@ -137,9 +137,9 @@ const WellnessChart = ({ data }) => {
             onClick={() => setChartType(t)}
             style={{
               padding: "5px 14px", borderRadius: "20px",
-              border: `1.5px solid ${chartType === t ? "#e87722" : "#e8e8e8"}`,
+              border: `1.5px solid ${chartType === t ? "#ec5a4d" : "#e8e8e8"}`,
               background: chartType === t ? "#fff5ed" : "#fff",
-              color: chartType === t ? "#e87722" : "#888",
+              color: chartType === t ? "#ec5a4d" : "#888",
               fontWeight: "600", fontSize: "12px", cursor: "pointer",
             }}
           >
@@ -185,7 +185,7 @@ const WellnessChart = ({ data }) => {
             <RadarChart data={radarData}>
               <PolarGrid stroke="#f0f0f0" />
               <PolarAngleAxis dataKey="metric" tick={{ fontSize: 11, fill: "#666" }} />
-              <Radar name="Today" dataKey="Today" stroke="#e87722" fill="#e87722" fillOpacity={0.35} />
+              <Radar name="Today" dataKey="Today" stroke="#ec5a4d" fill="#ec5a4d" fillOpacity={0.35} />
               <Radar name="Average" dataKey="Avg" stroke="#4f9cf9" fill="#4f9cf9" fillOpacity={0.25} />
               <Legend wrapperStyle={{ fontSize: "11px" }} />
               <Tooltip contentStyle={{ borderRadius: "8px", border: "1px solid #e8e8e8", fontSize: "12px" }} />
@@ -233,7 +233,7 @@ const NFTCScore = () => {
   useEffect(() => { const t = setTimeout(() => setVisible(true), 100); return () => clearTimeout(t); }, []);
 
   const scores = [
-    { label: "Neuromuscular", value: 78, color: "#e87722", desc: "Reaction time & coordination within optimal range" },
+    { label: "Neuromuscular", value: 78, color: "#ec5a4d", desc: "Reaction time & coordination within optimal range" },
     { label: "Functional Movement", value: 85, color: "#4f9cf9", desc: "FMS composite score — no asymmetry flags" },
     { label: "Thermal Load", value: 62, color: "#f94f7c", desc: "Core temp management — monitor hydration" },
     { label: "Cardiac Readiness", value: 91, color: "#22c55e", desc: "Resting HR 58bpm · HRV 72ms" },
@@ -246,14 +246,14 @@ const NFTCScore = () => {
         <div style={{ position: "relative", flexShrink: 0 }}>
           <svg width="88" height="88" viewBox="0 0 96 96">
             <circle cx="48" cy="48" r="40" fill="none" stroke="#f5e8da" strokeWidth="8" />
-            <circle cx="48" cy="48" r="40" fill="none" stroke="#e87722" strokeWidth="8"
+            <circle cx="48" cy="48" r="40" fill="none" stroke="#ec5a4d" strokeWidth="8"
               strokeDasharray="251" strokeDashoffset={visible ? 251 - (251 * overall / 100) : 251}
               strokeLinecap="round" transform="rotate(-90 48 48)"
               style={{ transition: "stroke-dashoffset 1.2s ease" }}
             />
           </svg>
           <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-            <div style={{ fontSize: "20px", fontWeight: "700", color: "#e87722" }}>{overall}</div>
+            <div style={{ fontSize: "20px", fontWeight: "700", color: "#ec5a4d" }}>{overall}</div>
             <div style={{ fontSize: "9px", fontWeight: "600", color: "#bbb", textTransform: "uppercase" }}>Overall</div>
           </div>
         </div>
@@ -261,7 +261,7 @@ const NFTCScore = () => {
           <div style={{ fontSize: "16px", fontWeight: "700", color: "#222" }}>NFTC Composite</div>
           <div style={{ fontSize: "13px", color: "#888", marginTop: "3px" }}>Neuro-Functional Training Capacity</div>
           <div style={{ marginTop: "8px", padding: "4px 12px", background: "#fff3e0", borderRadius: "6px", display: "inline-block" }}>
-            <span style={{ fontSize: "12px", fontWeight: "700", color: "#e87722" }}>
+            <span style={{ fontSize: "12px", fontWeight: "700", color: "#ec5a4d" }}>
               {overall >= 85 ? "✅ Excellent" : overall >= 70 ? "🟡 Good" : "🔴 Needs Attention"}
             </span>
           </div>
@@ -331,9 +331,9 @@ const ConsultModal = ({ onClose }) => {
   const [chosen, setChosen] = useState(null);
 
   const options = [
-    { id: "trainer", label: "Trainer", icon: Dumbbell, color: "#e87722", name: "Rahul Singh", time: "Tomorrow 9:00 AM" },
-    { id: "physio", label: "Physiotherapist", icon: Stethoscope, color: "#e87722", name: "Dr. Arun Kumar", time: "Today 4:00 PM" },
-    { id: "nutritionist", label: "Nutritionist", icon: Apple, color: "#e87722", name: "Anjali Nair", time: "Tomorrow 11:00 AM" },
+    { id: "trainer", label: "Trainer", icon: Dumbbell, color: "#ec5a4d", name: "Rahul Singh", time: "Tomorrow 9:00 AM" },
+    { id: "physio", label: "Physiotherapist", icon: Stethoscope, color: "#ec5a4d", name: "Dr. Arun Kumar", time: "Today 4:00 PM" },
+    { id: "nutritionist", label: "Nutritionist", icon: Apple, color: "#ec5a4d", name: "Anjali Nair", time: "Tomorrow 11:00 AM" },
   ];
 
   const handleChoose = (opt) => { setChosen(opt); setTimeout(() => setStep(2), 200); };
@@ -354,17 +354,17 @@ const ConsultModal = ({ onClose }) => {
                 return (
                   <button key={opt.id} onClick={() => handleChoose(opt)}
                     style={{ display: "flex", alignItems: "center", gap: "14px", padding: "14px 16px", borderRadius: "8px", border: "1px solid #e8e8e8", background: "#fff", cursor: "pointer", textAlign: "left" }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = "#e87722"; e.currentTarget.style.background = "#fff8f2"; }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = "#ec5a4d"; e.currentTarget.style.background = "#fff8f2"; }}
                     onMouseLeave={e => { e.currentTarget.style.borderColor = "#e8e8e8"; e.currentTarget.style.background = "#fff"; }}
                   >
-                    <div style={{ width: "40px", height: "40px", borderRadius: "8px", background: "#fff3e8", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Icon size={18} style={{ color: "#e87722" }} />
+                    <div style={{ width: "40px", height: "40px", borderRadius: "8px", background: "#fdecea", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <Icon size={18} style={{ color: "#ec5a4d" }} />
                     </div>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontWeight: "700", fontSize: "13px", color: "#222" }}>{opt.label}</div>
                       <div style={{ fontSize: "12px", color: "#888" }}>{opt.name}</div>
                     </div>
-                    <div style={{ fontSize: "11px", color: "#e87722", fontWeight: "600" }}>{opt.time}</div>
+                    <div style={{ fontSize: "11px", color: "#ec5a4d", fontWeight: "600" }}>{opt.time}</div>
                   </button>
                 );
               })}
@@ -375,17 +375,17 @@ const ConsultModal = ({ onClose }) => {
           </>
         ) : (
           <div style={{ textAlign: "center", padding: "16px 0" }}>
-            <div style={{ width: "64px", height: "64px", borderRadius: "50%", background: "#fff3e8", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-              <CheckCircle2 size={34} style={{ color: "#e87722" }} />
+            <div style={{ width: "64px", height: "64px", borderRadius: "50%", background: "#fdecea", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+              <CheckCircle2 size={34} style={{ color: "#ec5a4d" }} />
             </div>
             <div style={{ fontSize: "18px", fontWeight: "700", color: "#222", marginBottom: "8px" }}>Consultation Booked!</div>
             <div style={{ fontSize: "13px", color: "#666", lineHeight: "1.6", marginBottom: "4px" }}>
-              Your consultation with <strong style={{ color: "#e87722" }}>{chosen.name}</strong>
+              Your consultation with <strong style={{ color: "#ec5a4d" }}>{chosen.name}</strong>
             </div>
             <div style={{ fontSize: "13px", color: "#888", marginBottom: "20px" }}>
               ({chosen.label}) is confirmed for <strong>{chosen.time}</strong>.
             </div>
-            <button onClick={onClose} style={{ width: "100%", padding: "12px", borderRadius: "8px", backgroundColor: "#e87722", border: "none", color: "#fff", fontWeight: "700", fontSize: "13px", cursor: "pointer" }}>
+            <button onClick={onClose} style={{ width: "100%", padding: "12px", borderRadius: "8px", backgroundColor: "#ec5a4d", border: "none", color: "#fff", fontWeight: "700", fontSize: "13px", cursor: "pointer" }}>
               Back to Dashboard
             </button>
           </div>
@@ -444,7 +444,7 @@ export default function Players() {
     return (
       <div style={{ padding: "28px", maxWidth: "700px", margin: "0 auto" }}>
         <BackBtn label="My Injuries" onClick={() => setView(V.INJURIES)} />
-        <div style={card({ padding: "24px", marginBottom: "20px", borderLeft: "5px solid #e87722" })}>
+        <div style={card({ padding: "24px", marginBottom: "20px", borderLeft: "5px solid #ec5a4d" })}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
             <div>
               <h2 style={{ fontSize: "22px", fontWeight: "800", margin: "0 0 6px 0" }}>{inj.type}</h2>
@@ -456,13 +456,13 @@ export default function Players() {
             </div>
           </div>
           {inj.description && (
-            <div style={{ marginTop: "16px", padding: "14px", background: "#f9f9f9", borderRadius: "8px", borderLeft: "4px solid #e87722" }}>{inj.description}</div>
+            <div style={{ marginTop: "16px", padding: "14px", background: "#f9f9f9", borderRadius: "8px", borderLeft: "4px solid #ec5a4d" }}>{inj.description}</div>
           )}
         </div>
 
         <div style={card({ padding: "24px" })}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
-            <Send size={20} style={{ color: "#e87722" }} />
+            <Send size={20} style={{ color: "#ec5a4d" }} />
             <h3 style={{ margin: 0, fontSize: "17px", fontWeight: "700" }}>Request Clearance for Playing</h3>
           </div>
           <p style={{ fontSize: "14px", color: "#555", marginBottom: "16px" }}>
@@ -530,7 +530,7 @@ export default function Players() {
           </div>
           {teamMembers.map((m, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", padding: "15px 22px", borderBottom: i < teamMembers.length - 1 ? "1px solid #f5f5f5" : "none", gap: "16px" }}>
-              <div style={{ width: "42px", height: "42px", borderRadius: "50%", backgroundColor: "#fff3e8", border: "2px solid #ffd8b0", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", color: "#e87722" }}>
+              <div style={{ width: "42px", height: "42px", borderRadius: "50%", backgroundColor: "#fdecea", border: "2px solid #ffd8b0", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", color: "#ec5a4d" }}>
                 {m.number}
               </div>
               <div style={{ flex: 1 }}>
@@ -560,10 +560,10 @@ export default function Players() {
 
       {/* Player Profile */}
       <div style={card({ padding: "20px 24px", marginBottom: "20px", position: "relative" })}>
-        <div style={{ position: "absolute", top: 0, right: 0, width: "120px", height: "120px", background: "radial-gradient(circle, rgba(232,119,34,0.06) 0%, transparent 70%)" }} />
+        <div style={{ position: "absolute", top: 0, right: 0, width: "120px", height: "120px", background: "radial-gradient(circle, rgba(236,90,77,0.06) 0%, transparent 70%)" }} />
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <div style={{ width: "58px", height: "58px", borderRadius: "50%", backgroundColor: "#fff3e8", border: "1.5px solid #ffd8b0", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <User size={26} style={{ color: "#e87722" }} />
+          <div style={{ width: "58px", height: "58px", borderRadius: "50%", backgroundColor: "#fdecea", border: "1.5px solid #ffd8b0", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <User size={26} style={{ color: "#ec5a4d" }} />
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -601,7 +601,7 @@ export default function Players() {
               {activeInjuriesCount} active injur{activeInjuriesCount > 1 ? "ies" : "y"} on record
             </span>
           </div>
-          <button onClick={() => setView(V.INJURIES)} style={{ color: "#e87722", fontWeight: "700", textDecoration: "underline", background: "none", border: "none", cursor: "pointer" }}>
+          <button onClick={() => setView(V.INJURIES)} style={{ color: "#ec5a4d", fontWeight: "700", textDecoration: "underline", background: "none", border: "none", cursor: "pointer" }}>
             View & Request Clearance →
           </button>
         </div>
@@ -614,7 +614,7 @@ export default function Players() {
             style={{
               flex: 1, padding: "9px", borderRadius: "6px", border: "none", cursor: "pointer",
               backgroundColor: activeTab === i ? "#fff" : "transparent",
-              color: activeTab === i ? "#e87722" : "#888",
+              color: activeTab === i ? "#ec5a4d" : "#888",
               fontWeight: activeTab === i ? "700" : "500",
               fontSize: "13px",
               boxShadow: activeTab === i ? "0 1px 4px rgba(0,0,0,0.07)" : "none",
@@ -636,7 +636,7 @@ export default function Players() {
       <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "14px" }}>
         <button onClick={() => setView(V.TEAM)}
           style={{ padding: "11px 22px", background: "#fff", border: "1.5px solid #e0e0e0", borderRadius: "8px", fontWeight: "600", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", fontSize: "13px" }}
-          onMouseEnter={e => e.currentTarget.style.borderColor = "#e87722"}
+          onMouseEnter={e => e.currentTarget.style.borderColor = "#ec5a4d"}
           onMouseLeave={e => e.currentTarget.style.borderColor = "#e0e0e0"}
         >
           <Users size={16} /> View Team

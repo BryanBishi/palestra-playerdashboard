@@ -1,18 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Icon from "../components/Icon";
 import logo from "../assets/company-logo.png";
-import { getPlayer, fetchAllWellnessReport } from "../api/authApi";
-import Dashboard from "../sections/Dashboard";
-import MyTeam from "../sections/MyTeam";
-import Injuries from "../sections/Injuries";
-import DailyCheckin from "../sections/DailyCheckin";
+import PlayerDashboard from "../pages/PlayerDashboard";
+import Coach from "../pages/Coach";
+import Trainer from "../pages/Trainer";
+import Physiotherapist from "../pages/Physiotherapist";
+import Nutritionist from "../pages/Nutritionist";
 
 const NAV = [
-  { id: "dashboard", label: "Dashboard", icon: "dashboard" },
-  { id: "team", label: "My Team", icon: "team" },
-  { id: "injuries", label: "Injuries", icon: "shield" },
-  { id: "daily", label: "Daily Check-in", icon: "clipboardCheck" },
+  { id: "player", label: "My Dashboard", icon: "user" },
+  { id: "coach", label: "Coach", icon: "team" },
+  { id: "trainer", label: "Trainer", icon: "trainer" },
+  { id: "physio", label: "Physiotherapist", icon: "physio" },
+  { id: "nutritionist", label: "Nutritionist", icon: "apple" },
 ];
+
+const VIEWS = {
+  player: PlayerDashboard,
+  coach: Coach,
+  trainer: Trainer,
+  physio: Physiotherapist,
+  nutritionist: Nutritionist,
+};
 
 function TopBar({ onLogout }) {
   return (
@@ -69,7 +78,7 @@ function Footer() {
           </div>
           <p className="f-about">Palaestra Performance &amp; Rehab — structured training, performance monitoring and athlete care.</p>
         </div>
-        <div className="f-col"><h4>Player</h4><a>Dashboard</a><a>My Team</a><a>Daily Check-in</a><a>Injury Records</a></div>
+        <div className="f-col"><h4>Player</h4><a>My Dashboard</a><a>Coach</a><a>Trainer</a><a>Daily Check-in</a></div>
         <div className="f-col"><h4>Support Staff</h4><a>Coaches</a><a>Physios</a><a>Trainers</a><a>Nutritionists</a></div>
         <div className="f-col"><h4>Academy</h4><a>About Palaestra</a><a>Tournaments</a><a>Infrastructure</a><a>Contact</a></div>
       </div>
@@ -84,37 +93,16 @@ function Footer() {
 }
 
 export default function AppLayout({ onLogout }) {
-  const [active, setActive] = useState("dashboard");
-  const [player, setPlayer] = useState(null);
-  const [wellness, setWellness] = useState([]);
-
-  useEffect(() => {
-    const uid = localStorage.getItem("userId");
-    if (!uid) return;
-    (async () => {
-      try {
-        const res = await getPlayer(uid);
-        setPlayer(res.data?.data ? res.data.data : res.data);
-      } catch (e) { console.error("getPlayer failed", e); }
-      try {
-        const res = await fetchAllWellnessReport(uid);
-        const d = res.data;
-        const arr = Array.isArray(d) ? d : Array.isArray(d?.data) ? d.data : [];
-        setWellness(arr);
-      } catch (e) { console.error("wellness failed", e); }
-    })();
-  }, []);
-
+  const [active, setActive] = useState("player");
   const nav = (id) => { setActive(id); window.scrollTo({ top: 0, behavior: "smooth" }); };
-  const view = { dashboard: Dashboard, team: MyTeam, injuries: Injuries, daily: DailyCheckin }[active] || Dashboard;
-  const ActiveSection = view;
+  const ActiveSection = VIEWS[active] || PlayerDashboard;
 
   return (
     <div className="app">
       <TopBar onLogout={onLogout} />
       <Navbar active={active} onNav={nav} />
       <main className="main">
-        <ActiveSection player={player} wellness={wellness} nav={nav} />
+        <ActiveSection onLogout={onLogout} />
       </main>
       <Footer />
     </div>
