@@ -4,66 +4,75 @@ import {
   Clock, ChevronDown, ChevronUp, Calendar, FileText,
   TrendingUp, Zap, Shield, RotateCcw,
 } from "lucide-react";
+import {
+  C, COND, SEMI, Card, SectionHero, StatCard, StatGrid, SegTabs,
+  List, ListRow, LeadBadge, Bar, Pill, CardHead, Note,
+} from "../components/ui.jsx";
 
-const card = (extra = {}) => ({
-  backgroundColor: "#fff", borderRadius: "10px",
-  border: "1px solid #e8e8e8", boxShadow: "0 1px 4px rgba(0,0,0,0.05)", ...extra,
-});
-
-const Badge = ({ label, color, bg }) => (
-  <span style={{ padding: "3px 10px", borderRadius: "20px", fontSize: "11px", fontWeight: "700", color, background: bg, border: `1px solid ${color}33` }}>
-    {label}
-  </span>
-);
-
-// ── PROGRESS BAR ────────────────────────────────────────────────────────────
-const ProgressBar = ({ label, value, color = "#f94f7c", note }) => (
-  <div style={{ marginBottom: "14px" }}>
-    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
-      <span style={{ fontSize: "12px", fontWeight: "600", color: "#333" }}>{label}</span>
-      <span style={{ fontSize: "12px", fontWeight: "700", color }}>{value}%</span>
-    </div>
-    <div style={{ height: "7px", background: "#f0f0f0", borderRadius: "4px", overflow: "hidden" }}>
-      <div style={{ height: "100%", width: `${value}%`, background: color, borderRadius: "4px", transition: "width 0.9s ease" }} />
-    </div>
-    {note && <div style={{ fontSize: "11px", color: "#aaa", marginTop: "3px" }}>{note}</div>}
-  </div>
-);
-
-// ── EXERCISE CARD ───────────────────────────────────────────────────────────
-const ExerciseCard = ({ ex }) => {
+// ── EXERCISE ROW ────────────────────────────────────────────────────────────
+const ExerciseRow = ({ ex, last }) => {
   const [done, setDone] = useState(false);
   return (
-    <div style={card({ padding: "12px 16px", marginBottom: "8px", display: "flex", gap: "12px", alignItems: "center", opacity: done ? 0.6 : 1, transition: "opacity 0.2s" })}>
-      <div style={{ width: "36px", height: "36px", borderRadius: "9px", background: done ? "#f0fff4" : "#fff8f2", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-        {done ? <CheckCircle2 size={17} style={{ color: "#22c55e" }} /> : <Activity size={17} style={{ color: "#f94f7c" }} />}
-      </div>
-      <div style={{ flex: 1 }}>
-        <div style={{ fontWeight: "700", fontSize: "13px", color: "#222", textDecoration: done ? "line-through" : "none" }}>{ex.name}</div>
-        <div style={{ fontSize: "11px", color: "#aaa" }}>{ex.sets} · {ex.focus}</div>
-      </div>
-      <button onClick={() => setDone(!done)}
-        style={{ padding: "5px 12px", borderRadius: "7px", border: `1px solid ${done ? "#22c55e" : "#e8e8e8"}`, background: done ? "#f0fff4" : "#fff", color: done ? "#22c55e" : "#888", fontWeight: "600", fontSize: "11px", cursor: "pointer" }}>
-        {done ? "Done ✓" : "Mark Done"}
-      </button>
-    </div>
+    <ListRow
+      last={last}
+      accent={done ? C.ok : C.sky}
+      lead={
+        <LeadBadge accent={done ? C.ok : C.sky} tone={done ? "filled" : "tint"}>
+          {done ? <CheckCircle2 size={18} /> : <Activity size={18} />}
+        </LeadBadge>
+      }
+      title={
+        <span style={{ textDecoration: done ? "line-through" : "none", color: done ? C.muted : C.text }}>
+          {ex.name}
+        </span>
+      }
+      meta={`${ex.sets} · ${ex.focus}`}
+      right={
+        done ? (
+          <Pill tone="ok" style={{ cursor: "pointer" }}>
+            <span onClick={() => setDone(false)} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+              <CheckCircle2 size={13} /> Done ✓
+            </span>
+          </Pill>
+        ) : (
+          <button
+            onClick={() => setDone(true)}
+            style={{
+              appearance: "none", cursor: "pointer", fontFamily: SEMI, fontWeight: 600,
+              fontSize: 11.5, letterSpacing: ".02em", padding: "6px 13px", borderRadius: 999,
+              border: `1px solid ${C.line}`, background: C.card, color: C.skyDark,
+            }}
+          >
+            Mark Done
+          </button>
+        )
+      }
+    />
   );
 };
 
 // ── INJURY TIMELINE ─────────────────────────────────────────────────────────
-const TimelineItem = ({ item, isLast }) => (
-  <div style={{ display: "flex", gap: "14px" }}>
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: item.color, flexShrink: 0, marginTop: "3px" }} />
-      {!isLast && <div style={{ width: "2px", flex: 1, background: "#e8e8e8", margin: "4px 0" }} />}
+const TimelineItem = ({ item, isLast }) => {
+  const done = item.color !== "#aaa";
+  const dot = done ? C.sky : C.muted2;
+  return (
+    <div style={{ display: "flex", gap: 16 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div style={{
+          width: 14, height: 14, borderRadius: "50%", flexShrink: 0, marginTop: 3,
+          background: done ? dot : C.card, border: `2.5px solid ${dot}`,
+          boxShadow: done ? `0 0 0 4px ${C.sky}1f` : "none",
+        }} />
+        {!isLast && <div style={{ width: 2, flex: 1, background: done ? C.sky : C.line, margin: "5px 0", opacity: done ? .45 : 1 }} />}
+      </div>
+      <div style={{ paddingBottom: 20, flex: 1, minWidth: 0 }}>
+        <div style={{ fontWeight: 700, fontSize: 14.5, color: C.text }}>{item.event}</div>
+        <div style={{ fontFamily: SEMI, fontSize: 11.5, letterSpacing: ".04em", textTransform: "uppercase", color: C.skyDark, marginTop: 3 }}>{item.date}</div>
+        {item.note && <div style={{ fontSize: 12.5, color: C.muted, marginTop: 5, lineHeight: 1.5 }}>{item.note}</div>}
+      </div>
     </div>
-    <div style={{ paddingBottom: "16px" }}>
-      <div style={{ fontSize: "12px", fontWeight: "700", color: "#222" }}>{item.event}</div>
-      <div style={{ fontSize: "11px", color: "#aaa" }}>{item.date}</div>
-      {item.note && <div style={{ fontSize: "11px", color: "#666", marginTop: "3px" }}>{item.note}</div>}
-    </div>
-  </div>
-);
+  );
+};
 
 // ── DATA ────────────────────────────────────────────────────────────────────
 const REHAB_EXERCISES = [
@@ -104,106 +113,95 @@ export default function Physiotherapist() {
   const tabs = ["Rehab Plan", "Assessments", "Sessions", "Timeline"];
 
   return (
-    <div style={{ padding: "clamp(16px, 4vw, 32px)", maxWidth: "860px", margin: "0 auto" }}>
+    <div className="page-wrap">
 
       {/* Header */}
-      <div style={card({ padding: "18px 20px", marginBottom: "20px", background: "linear-gradient(135deg, #fff0f8 0%, #fff 100%)", borderLeft: "4px solid #f94f7c" })}>
-        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-          <div style={{ width: "48px", height: "48px", borderRadius: "12px", background: "#f94f7c22", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-            <Stethoscope size={22} style={{ color: "#f94f7c" }} />
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: "17px", fontWeight: "700", color: "#222" }}>Physiotherapy Portal</div>
-            <div style={{ fontSize: "12px", color: "#888" }}>Dr. Arun Kumar · MSc (Sports Physio) · KCA</div>
-          </div>
-          <Badge label="Active Rehab" color="#f94f7c" bg="#fff0f8" />
-        </div>
-      </div>
+      <SectionHero
+        icon={Stethoscope}
+        eyebrow="MSc (Sports Physio) · KCA"
+        title="Physiotherapy Portal"
+        sub="Dr. Arun Kumar"
+        right={<Pill tone="sky">Active Rehab</Pill>}
+      />
 
       {/* Quick status chips */}
-      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "20px" }}>
-        {[
-          { icon: Shield, label: "Clearance", value: "Pending", color: "#f9a825", bg: "#fffbea" },
-          { icon: TrendingUp, label: "Progress", value: "Good", color: "#22c55e", bg: "#f0fff4" },
-          { icon: Zap, label: "Sessions Left", value: "9", color: "#4f9cf9", bg: "#eff8ff" },
-          { icon: RotateCcw, label: "Week", value: "2 / 6", color: "#f94f7c", bg: "#fff0f8" },
-        ].map(chip => {
-          const Icon = chip.icon;
-          return (
-            <div key={chip.label} style={{ flex: "1 0 calc(25% - 6px)", minWidth: "100px", padding: "10px 8px", background: chip.bg, borderRadius: "9px", border: `1px solid ${chip.color}33`, textAlign: "center" }}>
-              <Icon size={14} style={{ color: chip.color, marginBottom: "3px" }} />
-              <div style={{ fontSize: "14px", fontWeight: "700", color: "#222" }}>{chip.value}</div>
-              <div style={{ fontSize: "10px", color: chip.color, fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.4px" }}>{chip.label}</div>
-            </div>
-          );
-        })}
+      <div style={{ marginBottom: 22 }}>
+        <StatGrid min={130}>
+          <StatCard icon={Shield} value="Pending" label="Clearance" tone="warn" />
+          <StatCard icon={TrendingUp} value="Good" label="Progress" tone="ok" />
+          <StatCard icon={Zap} value="9" label="Sessions Left" />
+          <StatCard icon={RotateCcw} value="2 / 6" label="Week" />
+        </StatGrid>
       </div>
 
       {/* Tabs */}
-      <div style={{ display: "flex", gap: "0", marginBottom: "16px", background: "#f5f5f5", borderRadius: "8px", padding: "3px" }}>
-        {tabs.map((t, i) => (
-          <button key={i} onClick={() => setTab(i)}
-            style={{ flex: 1, padding: "9px", borderRadius: "6px", border: "none", cursor: "pointer", backgroundColor: tab === i ? "#fff" : "transparent", color: tab === i ? "#f94f7c" : "#888", fontWeight: tab === i ? "700" : "500", fontSize: "12px", boxShadow: tab === i ? "0 1px 4px rgba(0,0,0,0.07)" : "none" }}>
-            {t}
-          </button>
-        ))}
-      </div>
+      <SegTabs tabs={tabs} active={tab} onChange={setTab} />
 
       {/* Rehab Plan */}
       {tab === 0 && (
         <div>
-          <div style={{ padding: "12px 16px", background: "#fff8f2", borderRadius: "8px", border: "1px solid #ffd8b0", marginBottom: "14px", fontSize: "12px", color: "#666" }}>
-            <strong style={{ color: "#2f9be0" }}>Today's Rehab Protocol —</strong> Focus: Hip Mobility + Thoracic Rotation. Complete all exercises in order.
+          <div style={{ marginBottom: 14 }}>
+            <Note tone="sky" icon={Activity}>
+              <strong>Today's Rehab Protocol —</strong> Focus: Hip Mobility + Thoracic Rotation. Complete all exercises in order.
+            </Note>
           </div>
-          {REHAB_EXERCISES.map((ex, i) => <ExerciseCard key={i} ex={ex} />)}
+          <List>
+            {REHAB_EXERCISES.map((ex, i) => (
+              <ExerciseRow key={i} ex={ex} last={i === REHAB_EXERCISES.length - 1} />
+            ))}
+          </List>
         </div>
       )}
 
       {/* Assessments */}
       {tab === 1 && (
-        <div style={card({ padding: "20px" })}>
-          <div style={{ fontSize: "13px", fontWeight: "700", color: "#333", marginBottom: "4px" }}>MSK Mobility Scores</div>
-          <div style={{ fontSize: "11px", color: "#aaa", marginBottom: "16px" }}>Last assessed: 13 May 2026 · Pinkesh Barot</div>
-          {ASSESSMENTS.map((a, i) => <ProgressBar key={i} {...a} />)}
-          <div style={{ padding: "12px 14px", background: "#f9f9f9", borderRadius: "8px", borderLeft: "3px solid #4f9cf9", marginTop: "8px" }}>
-            <div style={{ fontSize: "12px", fontWeight: "700", color: "#333", marginBottom: "4px" }}>Physio Notes</div>
-            <div style={{ fontSize: "12px", color: "#555", lineHeight: "1.7" }}>
-              LLD: Negative · Foot position: Rt Rear foot pronated · Restricted mobility: Rt Hip IR, B/L Hip ER Rt&gt;Lt, Rt Thoracic Rotation · Tightness: B/L rectus femoris · GIRD: -ve · Special Tests: -ve
-            </div>
+        <Card>
+          <CardHead icon={Activity} title="MSK Mobility Scores" sub="Last assessed: 13 May 2026 · Pinkesh Barot" />
+          <div style={{ padding: "18px 20px 8px" }}>
+            {ASSESSMENTS.map((a, i) => (
+              <Bar key={i} label={a.label} valueText={`${a.value}%`} pct={a.value} note={a.note} />
+            ))}
+            <Note tone="sky" icon={FileText}>
+              <strong>Physio Notes —</strong> LLD: Negative · Foot position: Rt Rear foot pronated · Restricted mobility: Rt Hip IR, B/L Hip ER Rt&gt;Lt, Rt Thoracic Rotation · Tightness: B/L rectus femoris · GIRD: -ve · Special Tests: -ve
+            </Note>
           </div>
-        </div>
+        </Card>
       )}
 
       {/* Sessions */}
       {tab === 2 && (
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-          {SESSIONS.map((s, i) => (
-            <div key={i} style={card({ padding: "14px 16px", display: "flex", gap: "12px", alignItems: "center" })}>
-              <div style={{ width: "38px", height: "38px", borderRadius: "9px", background: s.status === "upcoming" ? "#fff0f8" : "#f0fff4", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <Calendar size={16} style={{ color: s.status === "upcoming" ? "#f94f7c" : "#22c55e" }} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: "700", fontSize: "13px", color: "#222" }}>{s.type}</div>
-                <div style={{ fontSize: "11px", color: "#aaa" }}>{s.date} · {s.duration}</div>
-              </div>
-              <Badge
-                label={s.status === "upcoming" ? "Upcoming" : "Completed"}
-                color={s.status === "upcoming" ? "#f94f7c" : "#22c55e"}
-                bg={s.status === "upcoming" ? "#fff0f8" : "#f0fff4"}
+        <List>
+          {SESSIONS.map((s, i) => {
+            const up = s.status === "upcoming";
+            return (
+              <ListRow
+                key={i}
+                last={i === SESSIONS.length - 1}
+                accent={up ? C.sky : C.ok}
+                lead={
+                  <LeadBadge accent={up ? C.sky : C.ok}>
+                    <Calendar size={17} />
+                  </LeadBadge>
+                }
+                title={s.type}
+                meta={`${s.date} · ${s.duration}`}
+                right={<Pill tone={up ? "sky" : "ok"}>{up ? "Upcoming" : "Completed"}</Pill>}
               />
-            </div>
-          ))}
-        </div>
+            );
+          })}
+        </List>
       )}
 
       {/* Timeline */}
       {tab === 3 && (
-        <div style={card({ padding: "20px" })}>
-          <div style={{ fontSize: "13px", fontWeight: "700", color: "#333", marginBottom: "16px" }}>Injury & Rehab Timeline</div>
-          {TIMELINE.map((t, i) => (
-            <TimelineItem key={i} item={t} isLast={i === TIMELINE.length - 1} />
-          ))}
-        </div>
+        <Card>
+          <CardHead icon={Clock} title="Injury & Rehab Timeline" sub="Recovery milestones" />
+          <div style={{ padding: "20px 20px 4px" }}>
+            {TIMELINE.map((t, i) => (
+              <TimelineItem key={i} item={t} isLast={i === TIMELINE.length - 1} />
+            ))}
+          </div>
+        </Card>
       )}
     </div>
   );

@@ -1,77 +1,59 @@
 import { useState } from "react";
 import {
-  Dumbbell, Zap, Flame, Timer, TrendingUp, CheckCircle2,
-  RotateCcw, Activity, Heart, AlertCircle, Calendar, Award,
+  Dumbbell, Flame, Timer, CheckCircle2,
+  Heart, AlertCircle, Activity,
 } from "lucide-react";
-
-const card = (extra = {}) => ({
-  backgroundColor: "#fff", borderRadius: "10px",
-  border: "1px solid #e8e8e8", boxShadow: "0 1px 4px rgba(0,0,0,0.05)", ...extra,
-});
-
-const Badge = ({ label, color, bg }) => (
-  <span style={{ padding: "3px 10px", borderRadius: "20px", fontSize: "11px", fontWeight: "700", color, background: bg, border: `1px solid ${color}33` }}>
-    {label}
-  </span>
-);
+import {
+  C, COND, SEMI, Card, SectionHero, StatCard, StatGrid, SegTabs,
+  List, ListRow, LeadBadge, Bar, Pill, Note,
+} from "../components/ui.jsx";
 
 // ── WORKOUT EXERCISE ────────────────────────────────────────────────────────
-const WorkoutExercise = ({ ex, idx }) => {
+const WorkoutExercise = ({ ex, idx, last }) => {
   const [sets, setSets] = useState(Array(ex.sets).fill(false));
   const done = sets.filter(Boolean).length;
   const allDone = done === ex.sets;
 
-  return (
-    <div style={card({ padding: "14px 16px", marginBottom: "8px", opacity: allDone ? 0.65 : 1, transition: "opacity 0.2s" })}>
-      <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-        <div style={{
-          width: "32px", height: "32px", borderRadius: "8px",
-          background: allDone ? "#f0fff4" : "#e8f3fb",
-          display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: "700", fontSize: "13px",
-          color: allDone ? "#22c55e" : "#2f9be0",
-        }}>
-          {allDone ? <CheckCircle2 size={16} style={{ color: "#22c55e" }} /> : idx + 1}
-        </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: "700", fontSize: "13px", color: "#222", textDecoration: allDone ? "line-through" : "none" }}>{ex.name}</div>
-          <div style={{ fontSize: "11px", color: "#aaa", marginTop: "1px" }}>{ex.load} · {ex.rest} rest · {ex.focus}</div>
-          {/* Set tracker */}
-          <div style={{ display: "flex", gap: "6px", marginTop: "8px", flexWrap: "wrap" }}>
-            {sets.map((s, i) => (
-              <button key={i} onClick={() => setSets(prev => prev.map((v, j) => j === i ? !v : v))}
-                style={{
-                  width: "28px", height: "28px", borderRadius: "6px",
-                  border: `1.5px solid ${s ? "#22c55e" : "#e8e8e8"}`,
-                  background: s ? "#f0fff4" : "#fff",
-                  color: s ? "#22c55e" : "#bbb",
-                  fontWeight: "700", fontSize: "11px", cursor: "pointer",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                }}
-              >
-                {s ? "✓" : i + 1}
-              </button>
-            ))}
-            <span style={{ fontSize: "11px", color: "#aaa", alignSelf: "center" }}>{done}/{ex.sets} sets</span>
-          </div>
-        </div>
-      </div>
+  const tracker = (
+    <div style={{ display: "flex", gap: "6px", alignItems: "center", flexWrap: "wrap" }}>
+      {sets.map((s, i) => (
+        <button key={i} onClick={() => setSets(prev => prev.map((v, j) => j === i ? !v : v))}
+          style={{
+            width: "30px", height: "30px", borderRadius: "8px",
+            border: `1.5px solid ${s ? C.sky : C.line}`,
+            background: s ? `linear-gradient(160deg, ${C.sky}, ${C.skyDark})` : "#fff",
+            color: s ? "#fff" : C.muted2,
+            fontWeight: "700", fontSize: "12px", cursor: "pointer", fontFamily: COND,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: s ? `0 6px 14px -6px ${C.sky}99` : "none", transition: ".15s",
+          }}
+        >
+          {s ? "✓" : i + 1}
+        </button>
+      ))}
+      <span style={{ fontSize: "11.5px", color: allDone ? C.sky : C.muted, fontWeight: 700, alignSelf: "center", marginLeft: 2 }}>
+        {done}/{ex.sets} sets
+      </span>
     </div>
   );
-};
 
-// ── FITNESS TEST GAUGE ──────────────────────────────────────────────────────
-const FitnessGauge = ({ label, value, max, unit, color }) => {
-  const pct = Math.min((value / max) * 100, 100);
   return (
-    <div style={{ padding: "12px 14px", background: "#fafafa", borderRadius: "9px", border: "1px solid #e8e8e8", marginBottom: "8px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
-        <span style={{ fontSize: "12px", fontWeight: "600", color: "#333" }}>{label}</span>
-        <span style={{ fontSize: "13px", fontWeight: "700", color }}>{value} <span style={{ fontSize: "11px", color: "#aaa" }}>{unit}</span></span>
-      </div>
-      <div style={{ height: "6px", background: "#e8e8e8", borderRadius: "4px", overflow: "hidden" }}>
-        <div style={{ height: "100%", width: `${pct}%`, background: `linear-gradient(90deg, ${color}88, ${color})`, borderRadius: "4px", transition: "width 0.9s ease" }} />
-      </div>
-    </div>
+    <ListRow
+      last={last}
+      accent={C.sky}
+      lead={
+        allDone
+          ? <LeadBadge tone="filled">{<CheckCircle2 size={18} />}</LeadBadge>
+          : <LeadBadge tone="filled">{idx + 1}</LeadBadge>
+      }
+      title={
+        <span style={{ textDecoration: allDone ? "line-through" : "none", opacity: allDone ? 0.6 : 1, transition: ".2s" }}>
+          {ex.name}
+        </span>
+      }
+      meta={`${ex.load} · ${ex.rest} rest · ${ex.focus}`}
+      right={tracker}
+    />
   );
 };
 
@@ -102,7 +84,7 @@ const TRAINING_HISTORY = [
   { date: "14 May", session: "Full Body Circuit", load: "Moderate", duration: "60 min", rpe: 7 },
 ];
 
-const LOAD_COLORS = { High: { color: "#cc3333", bg: "#fff0f0" }, Moderate: { color: "#f9a825", bg: "#fffbea" }, Low: { color: "#22c55e", bg: "#f0fff4" } };
+const LOAD_TONE = { High: "danger", Moderate: "warn", Low: "ok" };
 
 // ── MAIN ────────────────────────────────────────────────────────────────────
 export default function Trainer() {
@@ -111,98 +93,87 @@ export default function Trainer() {
   const totalSets = TODAY_WORKOUT.reduce((s, e) => s + e.sets, 0);
 
   return (
-    <div style={{ padding: "clamp(16px, 4vw, 32px)", maxWidth: "860px", margin: "0 auto" }}>
+    <div className="page-wrap">
 
       {/* Header */}
-      <div style={card({ padding: "18px 20px", marginBottom: "20px", background: "linear-gradient(135deg, #f5f0ff 0%, #fff 100%)", borderLeft: "4px solid #a855f7" })}>
-        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-          <div style={{ width: "48px", height: "48px", borderRadius: "12px", background: "#a855f722", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-            <Dumbbell size={22} style={{ color: "#a855f7" }} />
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: "17px", fontWeight: "700", color: "#222" }}>Strength & Conditioning</div>
-            <div style={{ fontSize: "12px", color: "#888" }}>Rahul Singh · S&C Coach · KCA</div>
-          </div>
-          <Badge label="Phase 2" color="#a855f7" bg="#f5f0ff" />
-        </div>
-      </div>
+      <SectionHero
+        icon={Dumbbell}
+        eyebrow="S&C Coach · KCA"
+        title="Strength & Conditioning"
+        sub="Rahul Singh"
+        right={<Pill tone="sky">Phase 2</Pill>}
+      />
 
-      {/* Chips */}
-      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "20px" }}>
-        {[
-          { icon: Flame, label: "Today's Load", value: "High", color: "#cc3333", bg: "#fff0f0" },
-          { icon: Timer, label: "Duration", value: "70 min", color: "#2f9be0", bg: "#fff8f2" },
-          { icon: Dumbbell, label: "Total Sets", value: String(totalSets), color: "#a855f7", bg: "#f5f0ff" },
-          { icon: Heart, label: "Target RPE", value: "7–8", color: "#f94f7c", bg: "#fff0f8" },
-        ].map(chip => {
-          const Icon = chip.icon;
-          return (
-            <div key={chip.label} style={{ flex: "1 0 calc(25% - 6px)", minWidth: "100px", padding: "10px 8px", background: chip.bg, borderRadius: "9px", border: `1px solid ${chip.color}33`, textAlign: "center" }}>
-              <Icon size={14} style={{ color: chip.color, marginBottom: "3px" }} />
-              <div style={{ fontSize: "14px", fontWeight: "700", color: "#222" }}>{chip.value}</div>
-              <div style={{ fontSize: "10px", color: chip.color, fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.4px" }}>{chip.label}</div>
-            </div>
-          );
-        })}
-      </div>
+      {/* Quick stats */}
+      <StatGrid>
+        <StatCard icon={Flame} value="High" label="Today's Load" tone="danger" />
+        <StatCard icon={Timer} value="70" unit="min" label="Duration" />
+        <StatCard icon={Dumbbell} value={totalSets} label="Total Sets" />
+        <StatCard icon={Heart} value="7–8" label="Target RPE" tone="warn" />
+      </StatGrid>
+
+      <div style={{ height: 18 }} />
 
       {/* Tabs */}
-      <div style={{ display: "flex", marginBottom: "16px", background: "#f5f5f5", borderRadius: "8px", padding: "3px" }}>
-        {tabs.map((t, i) => (
-          <button key={i} onClick={() => setTab(i)}
-            style={{ flex: 1, padding: "9px", borderRadius: "6px", border: "none", cursor: "pointer", backgroundColor: tab === i ? "#fff" : "transparent", color: tab === i ? "#a855f7" : "#888", fontWeight: tab === i ? "700" : "500", fontSize: "12px", boxShadow: tab === i ? "0 1px 4px rgba(0,0,0,0.07)" : "none" }}>
-            {t}
-          </button>
-        ))}
-      </div>
+      <SegTabs tabs={tabs} active={tab} onChange={setTab} />
 
       {/* Today's Workout */}
       {tab === 0 && (
-        <div>
-          <div style={{ padding: "10px 14px", background: "#fff8f2", borderRadius: "8px", border: "1px solid #ffd8b0", marginBottom: "14px", fontSize: "12px", color: "#666", display: "flex", gap: "8px", alignItems: "flex-start" }}>
-            <AlertCircle size={14} style={{ color: "#2f9be0", flexShrink: 0, marginTop: "1px" }} />
-            <span><strong style={{ color: "#2f9be0" }}>Lower Body Power Day.</strong> Complete warm-up before starting. Tap set circles to track progress.</span>
-          </div>
-          {TODAY_WORKOUT.map((ex, i) => <WorkoutExercise key={i} ex={ex} idx={i} />)}
-          <div style={{ marginTop: "14px", padding: "12px 16px", background: "#fafafa", borderRadius: "8px", border: "1px solid #e8e8e8", fontSize: "12px", color: "#555" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <Note tone="sky" icon={AlertCircle}>
+            <strong>Lower Body Power Day.</strong> Complete warm-up before starting. Tap set circles to track progress.
+          </Note>
+          <List>
+            {TODAY_WORKOUT.map((ex, i) => (
+              <WorkoutExercise key={i} ex={ex} idx={i} last={i === TODAY_WORKOUT.length - 1} />
+            ))}
+          </List>
+          <Note tone="sky" icon={Activity}>
             <strong>Cool-down:</strong> 10 min foam rolling (quads, hamstrings, IT band) + static stretching. Log your RPE after session completion.
-          </div>
+          </Note>
         </div>
       )}
 
       {/* Fitness Tests */}
       {tab === 1 && (
-        <div>
-          <div style={{ fontSize: "12px", color: "#888", marginBottom: "14px" }}>Last fitness assessment: 12 May 2026 · Rahul Singh</div>
-          {FITNESS_TESTS.map((f, i) => <FitnessGauge key={i} {...f} />)}
-          <div style={{ marginTop: "14px", padding: "12px 14px", background: "#f5f0ff", borderRadius: "8px", border: "1px solid #d8b4fe", fontSize: "12px", color: "#555" }}>
-            <strong style={{ color: "#a855f7" }}>Trainer's Note:</strong> VO2 max is above average for cricket. Sprint speed needs improvement — focus on acceleration drills in coming weeks. Overall fitness grade: <strong>B+</strong>
-          </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <div style={{ fontSize: 12.5, color: C.muted }}>Last fitness assessment: 12 May 2026 · Rahul Singh</div>
+          <Card pad="20px 22px">
+            {FITNESS_TESTS.map((f, i) => (
+              <Bar
+                key={i}
+                label={f.label}
+                valueText={`${f.value} ${f.unit}`}
+                pct={Math.min((f.value / f.max) * 100, 100)}
+                color={C.sky}
+              />
+            ))}
+          </Card>
+          <Note tone="sky">
+            <strong>Trainer's Note:</strong> VO2 max is above average for cricket. Sprint speed needs improvement — focus on acceleration drills in coming weeks. Overall fitness grade: <strong>B+</strong>
+          </Note>
         </div>
       )}
 
       {/* History */}
       {tab === 2 && (
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-          {TRAINING_HISTORY.map((h, i) => {
-            const lc = LOAD_COLORS[h.load] || { color: "#888", bg: "#f5f5f5" };
-            return (
-              <div key={i} style={card({ padding: "14px 16px", display: "flex", gap: "12px", alignItems: "center" })}>
-                <div style={{ width: "38px", height: "38px", borderRadius: "9px", background: "#f5f0ff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Dumbbell size={16} style={{ color: "#a855f7" }} />
+        <List>
+          {TRAINING_HISTORY.map((h, i) => (
+            <ListRow
+              key={i}
+              last={i === TRAINING_HISTORY.length - 1}
+              lead={<LeadBadge tone="tint"><Dumbbell size={18} /></LeadBadge>}
+              title={h.session}
+              meta={`${h.date} · ${h.duration}`}
+              right={
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 5 }}>
+                  <Pill tone={LOAD_TONE[h.load] || "neutral"}>{h.load}</Pill>
+                  <span style={{ fontSize: 11.5, color: C.muted2, fontWeight: 700 }}>RPE {h.rpe}/10</span>
                 </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: "700", fontSize: "13px", color: "#222" }}>{h.session}</div>
-                  <div style={{ fontSize: "11px", color: "#aaa" }}>{h.date} · {h.duration}</div>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "4px" }}>
-                  <Badge label={h.load} color={lc.color} bg={lc.bg} />
-                  <span style={{ fontSize: "11px", color: "#aaa" }}>RPE {h.rpe}/10</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+              }
+            />
+          ))}
+        </List>
       )}
     </div>
   );

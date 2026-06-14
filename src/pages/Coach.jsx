@@ -1,32 +1,12 @@
 import { useState } from "react";
 import {
-  Users, Target, TrendingUp, Calendar, MessageSquare,
-  CheckCircle2, Clock, Award, BarChart2, Star, AlertCircle,
-  ChevronRight, Mic,
+  Users, Target, Award, BarChart2, Star, AlertCircle,
+  CheckCircle2, Calendar, TrendingUp, MessageSquare, ClipboardList,
 } from "lucide-react";
-
-const card = (extra = {}) => ({
-  backgroundColor: "#fff", borderRadius: "10px",
-  border: "1px solid #e8e8e8", boxShadow: "0 1px 4px rgba(0,0,0,0.05)", ...extra,
-});
-
-const Badge = ({ label, color, bg }) => (
-  <span style={{ padding: "3px 10px", borderRadius: "20px", fontSize: "11px", fontWeight: "700", color, background: bg, border: `1px solid ${color}33` }}>
-    {label}
-  </span>
-);
-
-const SkillBar = ({ label, value, color }) => (
-  <div style={{ marginBottom: "12px" }}>
-    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
-      <span style={{ fontSize: "12px", fontWeight: "600", color: "#333" }}>{label}</span>
-      <span style={{ fontSize: "12px", fontWeight: "700", color }}>{value}/10</span>
-    </div>
-    <div style={{ height: "6px", background: "#f0f0f0", borderRadius: "4px", overflow: "hidden" }}>
-      <div style={{ height: "100%", width: `${value * 10}%`, background: color, borderRadius: "4px", transition: "width 0.9s ease" }} />
-    </div>
-  </div>
-);
+import {
+  C, COND, SEMI, Card, SectionHero, StatCard, StatGrid, SegTabs, List, ListRow,
+  LeadBadge, Bar, Pill, CardHead, Note,
+} from "../components/ui";
 
 // ── DATA ────────────────────────────────────────────────────────────────────
 const SCHEDULE = [
@@ -87,132 +67,150 @@ export default function Coach() {
   const tabs = ["Schedule", "Objectives", "Performance", "Feedback"];
 
   return (
-    <div style={{ padding: "clamp(16px, 4vw, 32px)", maxWidth: "860px", margin: "0 auto" }}>
+    <div className="page-wrap">
 
       {/* Header */}
-      <div style={card({ padding: "18px 20px", marginBottom: "20px", background: "linear-gradient(135deg, #eff8ff 0%, #fff 100%)", borderLeft: "4px solid #4f9cf9" })}>
-        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-          <div style={{ width: "48px", height: "48px", borderRadius: "12px", background: "#4f9cf922", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-            <Users size={22} style={{ color: "#4f9cf9" }} />
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: "17px", fontWeight: "700", color: "#222" }}>Coach Portal</div>
-            <div style={{ fontSize: "12px", color: "#888" }}>Sanjay Verma · Head Coach · KCA</div>
-          </div>
-          <Badge label="Batting Specialist" color="#4f9cf9" bg="#eff8ff" />
-        </div>
-      </div>
+      <SectionHero
+        icon={Users}
+        eyebrow="Head Coach · KCA"
+        title="Coach Portal"
+        sub="Sanjay Verma"
+        right={<Pill tone="sky">Batting Specialist</Pill>}
+      />
 
-      {/* Stats Row */}
-      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "20px" }}>
-        {[
-          { icon: Award, label: "Current Form", value: "Good", color: "#22c55e", bg: "#f0fff4" },
-          { icon: Target, label: "Team Rank", value: "#3", color: "#2f9be0", bg: "#fff8f2" },
-          { icon: BarChart2, label: "Avg Score", value: "8.1/10", color: "#4f9cf9", bg: "#eff8ff" },
-          { icon: Star, label: "Coach Rating", value: "4.2★", color: "#f9a825", bg: "#fffbea" },
-        ].map(chip => {
-          const Icon = chip.icon;
-          return (
-            <div key={chip.label} style={{ flex: "1 0 calc(25% - 6px)", minWidth: "100px", padding: "10px 8px", background: chip.bg, borderRadius: "9px", border: `1px solid ${chip.color}33`, textAlign: "center" }}>
-              <Icon size={14} style={{ color: chip.color, marginBottom: "3px" }} />
-              <div style={{ fontSize: "14px", fontWeight: "700", color: "#222" }}>{chip.value}</div>
-              <div style={{ fontSize: "10px", color: chip.color, fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.4px" }}>{chip.label}</div>
-            </div>
-          );
-        })}
+      {/* Stat chips */}
+      <div style={{ marginBottom: 18 }}>
+        <StatGrid min={140}>
+          <StatCard icon={Award} value="Good" label="Current Form" tone="ok" />
+          <StatCard icon={Target} value="#3" label="Team Rank" />
+          <StatCard icon={BarChart2} value="8.1" unit="/10" label="Avg Score" />
+          <StatCard icon={Star} value="4.2" unit="★" label="Coach Rating" />
+        </StatGrid>
       </div>
 
       {/* Tabs */}
-      <div style={{ display: "flex", gap: "0", marginBottom: "16px", background: "#f5f5f5", borderRadius: "8px", padding: "3px" }}>
-        {tabs.map((t, i) => (
-          <button key={i} onClick={() => setTab(i)}
-            style={{ flex: 1, padding: "9px", borderRadius: "6px", border: "none", cursor: "pointer", backgroundColor: tab === i ? "#fff" : "transparent", color: tab === i ? "#4f9cf9" : "#888", fontWeight: tab === i ? "700" : "500", fontSize: "12px", boxShadow: tab === i ? "0 1px 4px rgba(0,0,0,0.07)" : "none" }}>
-            {t}
-          </button>
-        ))}
-      </div>
+      <SegTabs tabs={tabs} active={tab} onChange={setTab} />
 
       {/* Schedule */}
       {tab === 0 && (
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-          <div style={{ fontSize: "12px", color: "#888", marginBottom: "4px" }}>This week's training schedule — KCA Ground</div>
+        <List>
+          <CardHead
+            icon={Calendar}
+            title="Weekly Training Schedule"
+            sub="This week — KCA Ground"
+          />
           {SCHEDULE.map((s, i) => {
-            const tc = TYPE_COLORS[s.type] || { color: "#888", bg: "#f5f5f5" };
+            const done = s.status === "completed";
             return (
-              <div key={i} style={card({ padding: "14px 16px", display: "flex", gap: "12px", alignItems: "center" })}>
-                <div style={{ textAlign: "center", minWidth: "34px" }}>
-                  <div style={{ fontSize: "11px", fontWeight: "700", color: "#888" }}>{s.day}</div>
-                </div>
-                <div style={{ width: "1px", height: "36px", background: "#e8e8e8" }} />
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: "700", fontSize: "13px", color: "#222" }}>{s.session}</div>
-                  <div style={{ fontSize: "11px", color: "#aaa" }}>{s.time}</div>
-                </div>
-                <Badge label={s.type} color={tc.color} bg={tc.bg} />
-                <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: s.status === "completed" ? "#22c55e" : "#e8e8e8", flexShrink: 0 }} />
-              </div>
+              <ListRow
+                key={i}
+                last={i === SCHEDULE.length - 1}
+                lead={<LeadBadge>{s.day}</LeadBadge>}
+                title={s.session}
+                meta={s.time}
+                right={
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <Pill tone={done ? "neutral" : "sky"}>{s.type}</Pill>
+                    <span
+                      title={done ? "Completed" : "Upcoming"}
+                      style={{
+                        width: 9, height: 9, borderRadius: "50%", flexShrink: 0,
+                        background: done ? C.ok : C.line,
+                        boxShadow: done ? `0 0 0 3px ${C.okTint}` : "none",
+                      }}
+                    />
+                  </div>
+                }
+              />
             );
           })}
-        </div>
+        </List>
       )}
 
       {/* Objectives */}
       {tab === 1 && (
-        <div style={card({ padding: "20px" })}>
-          <div style={{ fontSize: "13px", fontWeight: "700", color: "#333", marginBottom: "4px" }}>Season Objectives</div>
-          <div style={{ fontSize: "11px", color: "#aaa", marginBottom: "18px" }}>Progress tracked by Coach Sanjay Verma</div>
-          {OBJECTIVES.map((o, i) => (
-            <div key={i} style={{ marginBottom: "16px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
-                <span style={{ fontSize: "12px", fontWeight: "600", color: "#333" }}>{o.goal}</span>
-                <span style={{ fontSize: "12px", fontWeight: "700", color: o.color }}>{o.progress}%</span>
-              </div>
-              <div style={{ height: "8px", background: "#f0f0f0", borderRadius: "4px", overflow: "hidden" }}>
-                <div style={{ height: "100%", width: `${o.progress}%`, background: o.color, borderRadius: "4px", transition: "width 0.9s ease" }} />
-              </div>
+        <Card>
+          <CardHead
+            icon={Target}
+            title="Season Objectives"
+            sub="Progress tracked by Coach Sanjay Verma"
+          />
+          <div style={{ padding: "18px 18px 6px" }}>
+            {OBJECTIVES.map((o, i) => (
+              <Bar
+                key={i}
+                label={o.goal}
+                valueText={`${o.progress}%`}
+                pct={o.progress}
+              />
+            ))}
+            <div style={{ marginTop: 6 }}>
+              <Note tone="sky" icon={AlertCircle}>
+                <strong>Focus area:</strong> Pull shot development needs priority in next 3 sessions.
+              </Note>
             </div>
-          ))}
-          <div style={{ marginTop: "16px", padding: "12px 14px", background: "#fff8f2", borderRadius: "8px", border: "1px solid #ffd8b0", fontSize: "12px", color: "#666" }}>
-            <AlertCircle size={13} style={{ color: "#2f9be0", display: "inline", marginRight: "6px" }} />
-            <strong style={{ color: "#2f9be0" }}>Focus area:</strong> Pull shot development needs priority in next 3 sessions.
           </div>
-        </div>
+        </Card>
       )}
 
       {/* Performance */}
       {tab === 2 && (
-        <div style={card({ padding: "20px" })}>
-          <div style={{ fontSize: "13px", fontWeight: "700", color: "#333", marginBottom: "16px" }}>Player Skill Assessment</div>
-          {SKILLS.map((s, i) => <SkillBar key={i} {...s} />)}
-          <div style={{ marginTop: "16px", padding: "14px", background: "#fafafa", borderRadius: "8px", border: "1px solid #e8e8e8" }}>
-            <div style={{ fontSize: "12px", fontWeight: "700", color: "#333", marginBottom: "6px" }}>Overall Assessment</div>
-            <div style={{ fontSize: "12px", color: "#555", lineHeight: "1.7" }}>
-              Strong technical base with above-average fielding. Consistency in shot selection is the key differentiator to work on. Mental game improving — composure under pressure has been a notable improvement this season.
+        <Card>
+          <CardHead
+            icon={TrendingUp}
+            title="Player Skill Assessment"
+            sub="Coach-graded competency scores"
+          />
+          <div style={{ padding: "18px 18px 6px" }}>
+            {SKILLS.map((s, i) => (
+              <Bar
+                key={i}
+                label={s.label}
+                valueText={`${s.value}/10`}
+                pct={s.value * 10}
+              />
+            ))}
+            <div style={{ marginTop: 6, marginBottom: 14 }}>
+              <Note tone="sky" icon={ClipboardList}>
+                <strong>Overall assessment:</strong> Strong technical base with above-average fielding.
+                Consistency in shot selection is the key differentiator to work on. Mental game improving —
+                composure under pressure has been a notable improvement this season.
+              </Note>
             </div>
           </div>
-        </div>
+        </Card>
       )}
 
       {/* Feedback */}
       {tab === 3 && (
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           {FEEDBACK.map((f, i) => (
-            <div key={i} style={card({ padding: "16px 18px" })}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
-                <div>
-                  <div style={{ fontWeight: "700", fontSize: "13px", color: "#222" }}>{f.session}</div>
-                  <div style={{ fontSize: "11px", color: "#aaa" }}>{f.date}</div>
+            <Card key={i} className="lift" pad="18px 20px">
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, flex: "0 0 auto", display: "grid", placeItems: "center", background: `${C.sky}16`, color: C.sky }}>
+                    <MessageSquare size={18} />
+                  </div>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontFamily: SEMI, fontWeight: 600, fontSize: 15.5, color: C.text }}>{f.session}</div>
+                    <div style={{ fontSize: 12, color: C.muted, marginTop: 1 }}>{f.date}</div>
+                  </div>
                 </div>
-                <div style={{ display: "flex", gap: "2px" }}>
+                <div style={{ display: "flex", gap: 2, flexShrink: 0 }}>
                   {[1, 2, 3, 4, 5].map(s => (
-                    <Star key={s} size={12} fill={s <= f.rating ? "#f9a825" : "none"} style={{ color: s <= f.rating ? "#f9a825" : "#ddd" }} />
+                    <Star
+                      key={s}
+                      size={14}
+                      fill={s <= f.rating ? C.gold : "none"}
+                      style={{ color: s <= f.rating ? C.gold : C.line }}
+                    />
                   ))}
                 </div>
               </div>
-              <div style={{ fontSize: "12px", color: "#555", lineHeight: "1.7", borderLeft: "3px solid #4f9cf9", paddingLeft: "10px" }}>
+              <div style={{ fontSize: 13.5, color: C.text, lineHeight: 1.65, borderLeft: `3px solid ${C.sky}`, paddingLeft: 14, background: C.skyTint, borderRadius: "0 8px 8px 0", padding: "11px 14px" }}>
                 {f.text}
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       )}
