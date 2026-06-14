@@ -38,7 +38,7 @@ function TopBar({ onLogout }) {
             <a href="#" aria-label="Instagram"><Icon name="instagram" /></a>
           </div>
           <div className="divider" />
-          <div className="search-box" style={{ width: "180px", background: "#1d2027", borderColor: "#262a32" }}>
+          <div className="search-box" style={{ width: "180px", background: "#163a7a", borderColor: "#234a8a" }}>
             <Icon name="search" /><input placeholder="Search…" style={{ color: "#c7ccd4" }} />
           </div>
           <button className="icon-btn" title="Notifications"><Icon name="bell" /></button>

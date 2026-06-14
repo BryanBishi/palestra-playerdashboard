@@ -77,7 +77,7 @@ const REHAB_EXERCISES = [
 
 const ASSESSMENTS = [
   { label: "Hip Internal Rotation (R)", value: 72, color: "#f94f7c", note: "Target: >80° — improving" },
-  { label: "Thoracic Rotation (R)", value: 65, color: "#ec5a4d", note: "Significant restriction — priority rehab" },
+  { label: "Thoracic Rotation (R)", value: 65, color: "#2f9be0", note: "Significant restriction — priority rehab" },
   { label: "Hip External Rotation (B/L)", value: 58, color: "#f9a825", note: "Left slightly better than right" },
   { label: "Calf Flexibility (R)", value: 80, color: "#22c55e", note: "Within acceptable range" },
   { label: "Postural Correction", value: 70, color: "#4f9cf9", note: "Rear foot pronation improving with orthotics" },
@@ -86,7 +86,7 @@ const ASSESSMENTS = [
 const TIMELINE = [
   { event: "Initial MSK Screening", date: "13 May 2026", note: "Physio: Pinkesh Barot — Full MSK assessment completed", color: "#4f9cf9" },
   { event: "Rear Foot Pronation Flagged", date: "13 May 2026", note: "Right foot pronation — orthotics recommended", color: "#f9a825" },
-  { event: "Rehab Plan Initiated", date: "14 May 2026", note: "Hip & thoracic mobility focus — 6-week plan", color: "#ec5a4d" },
+  { event: "Rehab Plan Initiated", date: "14 May 2026", note: "Hip & thoracic mobility focus — 6-week plan", color: "#2f9be0" },
   { event: "Week 1 Review", date: "20 May 2026", note: "Good compliance. Hip IR improved by 5°", color: "#22c55e" },
   { event: "Next Assessment", date: "27 May 2026", color: "#aaa" },
 ];
@@ -153,7 +153,7 @@ export default function Physiotherapist() {
       {tab === 0 && (
         <div>
           <div style={{ padding: "12px 16px", background: "#fff8f2", borderRadius: "8px", border: "1px solid #ffd8b0", marginBottom: "14px", fontSize: "12px", color: "#666" }}>
-            <strong style={{ color: "#ec5a4d" }}>Today's Rehab Protocol —</strong> Focus: Hip Mobility + Thoracic Rotation. Complete all exercises in order.
+            <strong style={{ color: "#2f9be0" }}>Today's Rehab Protocol —</strong> Focus: Hip Mobility + Thoracic Rotation. Complete all exercises in order.
           </div>
           {REHAB_EXERCISES.map((ex, i) => <ExerciseCard key={i} ex={ex} />)}
         </div>

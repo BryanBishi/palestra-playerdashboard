@@ -29,7 +29,7 @@ export default function Login({ onLogin }) {
   const labelStyle = { fontSize: "12px", fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".06em" };
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", background: "linear-gradient(135deg,#16181d 0%,#0c0d10 100%)" }}>
+    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", background: "linear-gradient(135deg,#123577 0%,#0d2a63 100%)" }}>
       <div style={{ width: "100%", maxWidth: "410px" }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "22px", textAlign: "center" }}>
           <img src={logo} alt="Palaestra" style={{ height: "56px", width: "auto" }} />

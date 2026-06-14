@@ -26,9 +26,9 @@ const WorkoutExercise = ({ ex, idx }) => {
       <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
         <div style={{
           width: "32px", height: "32px", borderRadius: "8px",
-          background: allDone ? "#f0fff4" : "#fdecea",
+          background: allDone ? "#f0fff4" : "#e8f3fb",
           display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: "700", fontSize: "13px",
-          color: allDone ? "#22c55e" : "#ec5a4d",
+          color: allDone ? "#22c55e" : "#2f9be0",
         }}>
           {allDone ? <CheckCircle2 size={16} style={{ color: "#22c55e" }} /> : idx + 1}
         </div>
@@ -86,7 +86,7 @@ const TODAY_WORKOUT = [
 ];
 
 const FITNESS_TESTS = [
-  { label: "VO2 Max", value: 54, max: 65, unit: "ml/kg/min", color: "#ec5a4d" },
+  { label: "VO2 Max", value: 54, max: 65, unit: "ml/kg/min", color: "#2f9be0" },
   { label: "Sprint Speed (30m)", value: 3.8, max: 4.5, unit: "sec", color: "#4f9cf9" },
   { label: "Vertical Jump", value: 62, max: 80, unit: "cm", color: "#a855f7" },
   { label: "Broad Jump", value: 2.35, max: 3, unit: "m", color: "#22c55e" },
@@ -131,7 +131,7 @@ export default function Trainer() {
       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "20px" }}>
         {[
           { icon: Flame, label: "Today's Load", value: "High", color: "#cc3333", bg: "#fff0f0" },
-          { icon: Timer, label: "Duration", value: "70 min", color: "#ec5a4d", bg: "#fff8f2" },
+          { icon: Timer, label: "Duration", value: "70 min", color: "#2f9be0", bg: "#fff8f2" },
           { icon: Dumbbell, label: "Total Sets", value: String(totalSets), color: "#a855f7", bg: "#f5f0ff" },
           { icon: Heart, label: "Target RPE", value: "7–8", color: "#f94f7c", bg: "#fff0f8" },
         ].map(chip => {
@@ -160,8 +160,8 @@ export default function Trainer() {
       {tab === 0 && (
         <div>
           <div style={{ padding: "10px 14px", background: "#fff8f2", borderRadius: "8px", border: "1px solid #ffd8b0", marginBottom: "14px", fontSize: "12px", color: "#666", display: "flex", gap: "8px", alignItems: "flex-start" }}>
-            <AlertCircle size={14} style={{ color: "#ec5a4d", flexShrink: 0, marginTop: "1px" }} />
-            <span><strong style={{ color: "#ec5a4d" }}>Lower Body Power Day.</strong> Complete warm-up before starting. Tap set circles to track progress.</span>
+            <AlertCircle size={14} style={{ color: "#2f9be0", flexShrink: 0, marginTop: "1px" }} />
+            <span><strong style={{ color: "#2f9be0" }}>Lower Body Power Day.</strong> Complete warm-up before starting. Tap set circles to track progress.</span>
           </div>
           {TODAY_WORKOUT.map((ex, i) => <WorkoutExercise key={i} ex={ex} idx={i} />)}
           <div style={{ marginTop: "14px", padding: "12px 16px", background: "#fafafa", borderRadius: "8px", border: "1px solid #e8e8e8", fontSize: "12px", color: "#555" }}>

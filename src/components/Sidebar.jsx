@@ -6,7 +6,7 @@ import {
 
 // ── NAV ITEMS ──────────────────────────────────────────────────────────────
 const NAV = [
-  { id: "player",      label: "My Dashboard", icon: User,        color: "#ec5a4d" },
+  { id: "player",      label: "My Dashboard", icon: User,        color: "#2f9be0" },
   { id: "coach",       label: "Coach",         icon: Users,       color: "#4f9cf9" },
   { id: "trainer",     label: "Trainer",       icon: Dumbbell,    color: "#a855f7" },
   { id: "physio",      label: "Physiotherapist", icon: Stethoscope, color: "#f94f7c" },
@@ -51,9 +51,9 @@ const S = {
   },
   logoIcon: {
     width: "38px", height: "38px", borderRadius: "10px",
-    background: "linear-gradient(135deg, #ec5a4d 0%, #f0a050 100%)",
+    background: "linear-gradient(135deg, #2f9be0 0%, #f0a050 100%)",
     display: "flex", alignItems: "center", justifyContent: "center",
-    boxShadow: "0 2px 8px rgba(236,90,77,0.3)",
+    boxShadow: "0 2px 8px rgba(47,155,224,0.3)",
   },
   logoText: {
     fontSize: "15px", fontWeight: "800", color: "#222", letterSpacing: "-0.3px",
@@ -90,7 +90,7 @@ const S = {
   }),
   navDot: {
     width: "6px", height: "6px", borderRadius: "50%",
-    background: "#ec5a4d", flexShrink: 0,
+    background: "#2f9be0", flexShrink: 0,
   },
   footer: {
     padding: "16px 12px",
@@ -105,7 +105,7 @@ const S = {
   },
   avatar: {
     width: "34px", height: "34px", borderRadius: "50%",
-    background: "#fdecea", border: "1.5px solid #ffd8b0",
+    background: "#e8f3fb", border: "1.5px solid #ffd8b0",
     display: "flex", alignItems: "center", justifyContent: "center",
     flexShrink: 0,
   },
@@ -175,7 +175,7 @@ const SidebarContent = ({ active, setActive, playerName, onClose, onLogout }) =>
     <div style={S.footer}>
       <div style={S.playerCard}>
         <div style={S.avatar}>
-          <User size={16} style={{ color: "#ec5a4d" }} />
+          <User size={16} style={{ color: "#2f9be0" }} />
         </div>
         <div style={{ flex: 1, overflow: "hidden" }}>
           <div style={{ fontSize: "13px", fontWeight: "700", color: "#222", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
