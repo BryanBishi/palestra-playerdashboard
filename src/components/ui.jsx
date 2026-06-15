@@ -26,14 +26,14 @@ export function Card({ children, style = {}, pad, className = "", ...rest }) {
 // Dark navy hero panel with pitch-line texture + sky glow.
 export function SectionHero({ icon: Icon, eyebrow, title, sub, right, accent = C.sky }) {
   return (
-    <div style={{ position: "relative", overflow: "hidden", borderRadius: 18, marginBottom: 22, color: "#fff",
+    <div className="sec-hero" style={{ position: "relative", overflow: "hidden", borderRadius: 18, marginBottom: 22, color: "#fff",
       background: `linear-gradient(135deg, ${C.navy2} 0%, ${C.navy} 55%, ${C.ink} 100%)`,
       border: "1px solid rgba(255,255,255,0.06)", boxShadow: SHADOW }}>
       <div style={{ position: "absolute", inset: 0, backgroundImage: "repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0, rgba(255,255,255,.05) 1px, transparent 1px, transparent 58px)", opacity: .5 }} />
       <div style={{ position: "absolute", right: -60, top: -80, width: 320, height: 320, borderRadius: "50%", background: `radial-gradient(circle, ${accent}38, transparent 62%)` }} />
-      <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 18, padding: "26px 28px", flexWrap: "wrap" }}>
+      <div className="sec-hero-inner" style={{ position: "relative", display: "flex", alignItems: "center", gap: 18, padding: "26px 28px", flexWrap: "wrap" }}>
         {Icon && (
-          <div style={{ width: 56, height: 56, borderRadius: 15, flex: "0 0 auto", display: "grid", placeItems: "center",
+          <div className="sec-hero-icon" style={{ width: 56, height: 56, borderRadius: 15, flex: "0 0 auto", display: "grid", placeItems: "center",
             background: `linear-gradient(160deg, ${accent}, ${C.skyDark})`, boxShadow: `0 10px 24px -8px ${accent}88` }}>
             <Icon size={26} color="#fff" />
           </div>
@@ -154,16 +154,18 @@ export function Ring({ value, max = 100, size = 132, stroke = 11, color = C.sky,
   const circ = 2 * Math.PI * r;
   const pct = Math.max(0, Math.min(1, value / max));
   return (
-    <div style={{ position: "relative", width: size, height: size }}>
-      <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#e8edf3" strokeWidth={stroke} />
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round"
-          strokeDasharray={circ} strokeDashoffset={circ - circ * pct} style={{ transition: "stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1)" }} />
-      </svg>
-      <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", textAlign: "center" }}>
-        <div>
-          <div style={{ fontFamily: COND, fontWeight: 700, fontSize: size * 0.3, lineHeight: 1, color: C.text }}>{value}{suffix}</div>
-          {sub && <div style={{ fontSize: 10.5, letterSpacing: ".14em", textTransform: "uppercase", color: C.muted, marginTop: 3 }}>{sub}</div>}
+    <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center" }}>
+      <div style={{ position: "relative", width: size, height: size }}>
+        <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
+          <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#e8edf3" strokeWidth={stroke} />
+          <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round"
+            strokeDasharray={circ} strokeDashoffset={circ - circ * pct} style={{ transition: "stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1)" }} />
+        </svg>
+        <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", textAlign: "center" }}>
+          <div>
+            <div style={{ fontFamily: COND, fontWeight: 700, fontSize: size * 0.3, lineHeight: 1, color: C.text }}>{value}{suffix}</div>
+            {sub && <div style={{ fontSize: 10.5, letterSpacing: ".14em", textTransform: "uppercase", color: C.muted, marginTop: 3 }}>{sub}</div>}
+          </div>
         </div>
       </div>
       {label && <div style={{ textAlign: "center", marginTop: 8, fontSize: 12.5, fontWeight: 600, color: C.text }}>{label}</div>}
